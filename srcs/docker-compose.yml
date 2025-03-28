@@ -4,14 +4,9 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
-      args:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     container_name: mariadb
     restart: always
-    env_file: ./.env
+    env_file: .env
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -22,7 +17,7 @@ services:
       context: ./requirements/wordpress
     container_name: wordpress
     restart: always
-    env_file: ./.env
+    env_file: .env
     expose:
       - "9000"
     depends_on:
@@ -36,11 +31,10 @@ services:
     build: ./requirements/nginx
     container_name: nginx
     restart: always
-    env_file: ./.env
+    env_file: .env
     depends_on:
       - wordpress
     ports:
-      - "80:80"
       - "443:443"
     volumes:
       - wordpress_data:/var/www/html
@@ -61,7 +55,6 @@ volumes:
       type: none
       o: bind
       device: /home/gotunc/data/wordpress
-
 
 networks:
   inception:

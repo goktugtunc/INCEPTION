@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export $(grep -v '^#' /tmp/env_vars | xargs)
-
 # MariaDB data klasörü boşsa ilk kurulum yapılacak
 if [ ! -d "/var/lib/mysql/mysql" ]; then
   echo "Initializing database..."
@@ -20,6 +18,9 @@ done
 
 echo "Setting root password..."
 mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD');"
+
+echo "Setting init.sql"
+envsubst < /tmp/init.sql.template > /docker-entrypoint-initdb.d/init.sql
 
 echo "Running init.sql..."
 mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "source /docker-entrypoint-initdb.d/init.sql"
