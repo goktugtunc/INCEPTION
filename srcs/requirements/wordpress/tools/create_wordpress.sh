@@ -27,6 +27,11 @@ if ! wp core is-installed --allow-root; then
     --admin_email="$WP_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
+
+    wp user create $WP_USER $WP_USER_EMAIL \
+	  --role=subscriber \
+  	  --user_pass=$WP_USER_PASSWORD \
+      --allow-root
 fi
 
 exec "$@"

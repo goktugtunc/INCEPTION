@@ -1,6 +1,8 @@
 all: up
 
 up:
+	sudo mkdir -p /home/gotunc/data/wordpress
+	sudo mkdir -p /home/gotunc/data/mariadb
 	docker-compose -f "srcs/docker-compose.yml" up -d --build
 down:
 	docker-compose -f srcs/docker-compose.yml down -v
@@ -14,5 +16,7 @@ fclean: clean
 	else \
 		echo "No images to remove."; \
 	fi
+	sudo rm -rf /home/gotunc/data/wordpress
+	sudo rm -rf /home/gotunc/data/mariadb
 
 re: fclean all
